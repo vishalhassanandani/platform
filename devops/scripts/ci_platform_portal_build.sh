@@ -38,16 +38,16 @@ DEVKITS_DIR=/build/devkits
 HELM=$DEVKITS_DIR/tools/build_software/helm/3.2.1/helm3
 
 ## Print Input Varibels ##
-echo '${app}'
-echo '${version}'
-echo '${SERVICE_BUILD_NUMBER}'
-echo '${SERVICE_NAME}'
-echo '${IMAGE_NAME}'
-echo '${CHART_REPO}'
-echo '${JAR_FINAL_NAME}'
-echo '${GIT_ID}'
-echo '${DTR_IMAGE_LOCATION}'
-echo '${HELM_REPO_FOLDERS}'
+echo ${app}
+echo ${version}
+echo ${SERVICE_BUILD_NUMBER}
+echo ${SERVICE_NAME}
+echo ${IMAGE_NAME}
+echo ${CHART_REPO}
+echo ${JAR_FINAL_NAME}
+echo ${GIT_ID}
+echo ${DTR_IMAGE_LOCATION}
+echo ${HELM_REPO_FOLDERS}
 
 logexe()
 {
