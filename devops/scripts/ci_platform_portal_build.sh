@@ -1,7 +1,7 @@
 #! /bin/sh
 
 WORKSPACE=$1
-JOB_NAME=$2
+SERVICENAME=$2
 BUILD_NUMBER=$3
 echo $BUILD_NUMBER
 app=vishalhassanandani
@@ -43,7 +43,7 @@ export CODE_PATH=${WORKSPACE}
 #RELEASEAREA=$cfg_relroot; export RELEASEAREA
 #echo "Release Area = $RELEASEAREA"
 #M2_SETTINGS=/data1/tools/m2; export M2_SETTINGS
-SERVICE_IMAGE_CONTENT=platformportal
+SERVICE_IMAGE_CONTENT=${SERVICENAME}
 ##########################################################################
 # log command and execute
 ##########################################################################
