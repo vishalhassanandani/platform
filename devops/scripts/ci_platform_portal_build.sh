@@ -21,18 +21,18 @@ echo "ROOT PATH=$root_path_dir"
 jenkins_root=${root_path_dir}/build_dca/rbuild/dem/${version}/jenkins; export jenkins_root
 cfg_root=${root_path_dir}/build_dca/rbuild/dem; export cfg_root
 BUILD_BASE=$cfg_root/$version/$buildid/dem; export BUILD_BASE
-cfg_relroot=${root_path_dir}/build_dca/release/$app/$version; export cfg_relroot
+cfg_relroot=${root_path_dir}/build_dca/release/$app/$version; export 
 #WAR_DIR=/ux/target/wars; export WAR_DIR
 #EB_EXT_DIR=/ux/devops/ebextensions; export EB_EXT_DIR
 
 DEVKITS_DIR=/build/devkits; export DEVKITS_DIR
-export JAVA_HOME=$DEVKITS_DIR/tools/build_software/jdk/openjdk-11/jdk-11
-export _JAVA_OPTIONS="-Xverify:none -Duser.home=${root_path_dir}/build_dca/local_maven_repo/$app/${version} -Xms512m -Xmx1024m"
-export MAVEN3_HOME=$DEVKITS_DIR/tools/build_software/maven/3.6.2
-export MAVEN_OPTS="-Xms1024m -Xmx2048m -XX:MaxMetaspaceSize=2048m -XX:MetaspaceSize=1024m -XX:LoopUnrollLimit=1 -Xss1m"
-export ANT_HOME=$DEVKITS_DIR/tools/build_software/ant/apache-ant-1.8.4
-export NODEJS_PATH=$DEVKITS_DIR/tools/build_software/nodejs/v8.11.2/node-v8.11.2-linux-x64/bin
-export BUILD_NUMBER=$BUILD_NUMBER
+#export JAVA_HOME=$DEVKITS_DIR/tools/build_software/jdk/openjdk-11/jdk-11
+#export _JAVA_OPTIONS="-Xverify:none -Duser.home=${root_path_dir}/build_dca/local_maven_repo/$app/${version} -Xms512m -Xmx1024m"
+#export MAVEN3_HOME=$DEVKITS_DIR/tools/build_software/maven/3.6.2
+#export MAVEN_OPTS="-Xms1024m -Xmx2048m -XX:MaxMetaspaceSize=2048m -XX:MetaspaceSize=1024m -XX:LoopUnrollLimit=1 -Xss1m"
+#export ANT_HOME=$DEVKITS_DIR/tools/build_software/ant/apache-ant-1.8.4
+#export NODEJS_PATH=$DEVKITS_DIR/tools/build_software/nodejs/v8.11.2/node-v8.11.2-linux-x64/bin
+#export BUILD_NUMBER=$BUILD_NUMBER
 #export PATH=$PATH:/devkits/tools/build_software/clm_nodejs/nodejs/bin:/devkits/tools/build_software/clm_jruby/jruby/bin
 
 #RELEASEAREA=$cfg_relroot; export RELEASEAREA
