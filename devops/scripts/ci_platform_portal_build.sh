@@ -1,5 +1,7 @@
 #! /bin/sh
 
+WORKSPACE=$1
+JOB_NAME=$2
 app=vishalhassanandani
 version=ci_platform_portal_build; export version;
 buildid=ci_platform_portal_build_unix; export buildid;
