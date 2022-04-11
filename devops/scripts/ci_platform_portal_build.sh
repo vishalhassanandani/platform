@@ -18,9 +18,9 @@ fi
 
 echo "ROOT PATH=$root_path_dir"
 
-jenkins_root=${root_path_dir}/build_dca/rbuild/dem/${version}/jenkins; export jenkins_root
-cfg_root=${root_path_dir}/build_dca/rbuild/dem; export cfg_root
-BUILD_BASE=$cfg_root/$version/$buildid/dem; export BUILD_BASE
+jenkins_root=${root_path_dir}/build_dca/rbuild/${app}/${version}/jenkins; export jenkins_root
+cfg_root=${root_path_dir}/build_dca/rbuild/${app}; export cfg_root
+BUILD_BASE=$cfg_root/$version/$buildid/${app}; export BUILD_BASE
 cfg_relroot=${root_path_dir}/build_dca/release/$app/$version; export 
 #WAR_DIR=/ux/target/wars; export WAR_DIR
 #EB_EXT_DIR=/ux/devops/ebextensions; export EB_EXT_DIR
@@ -32,12 +32,12 @@ DEVKITS_DIR=/build/devkits; export DEVKITS_DIR
 #export MAVEN_OPTS="-Xms1024m -Xmx2048m -XX:MaxMetaspaceSize=2048m -XX:MetaspaceSize=1024m -XX:LoopUnrollLimit=1 -Xss1m"
 #export ANT_HOME=$DEVKITS_DIR/tools/build_software/ant/apache-ant-1.8.4
 #export NODEJS_PATH=$DEVKITS_DIR/tools/build_software/nodejs/v8.11.2/node-v8.11.2-linux-x64/bin
-#export BUILD_NUMBER=$BUILD_NUMBER
+export BUILD_NUMBER=$BUILD_NUMBER
 #export PATH=$PATH:/devkits/tools/build_software/clm_nodejs/nodejs/bin:/devkits/tools/build_software/clm_jruby/jruby/bin
 
 #RELEASEAREA=$cfg_relroot; export RELEASEAREA
 #echo "Release Area = $RELEASEAREA"
-M2_SETTINGS=/data1/tools/m2; export M2_SETTINGS
+#M2_SETTINGS=/data1/tools/m2; export M2_SETTINGS
 SERVICE_IMAGE_CONTENT=platformportal
 ##########################################################################
 # log command and execute
@@ -64,7 +64,7 @@ echo "
 ##########################################################################
 "
 cd $BUILD_BASE/ux
-$MAVEN3_HOME/bin/mvn clean package -DskipTests -Dcobertura.skip -s $M2_SETTINGS/settings.xml
+#$MAVEN3_HOME/bin/mvn clean package -DskipTests -Dcobertura.skip -s $M2_SETTINGS/settings.xml
 
 if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
    echo "Dir $BUILD_BASE/ux/dist/platform-portal already exist"
@@ -73,7 +73,7 @@ if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
   fi
 
 cp Dockerfile $BUILD_BASE/ux/dist/platform-portal
-cp -r target $BUILD_BASE/ux/dist/platform-portal
+cp -r app $BUILD_BASE/ux/dist/platform-portal
 
 
 
