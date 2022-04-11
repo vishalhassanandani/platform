@@ -2,6 +2,8 @@
 
 WORKSPACE=$1
 JOB_NAME=$2
+BUILD_NUMBER=$3
+echo $BUILD_NUMBER
 app=vishalhassanandani
 version=ci_platform_portal_build; export version;
 buildid=ci_platform_portal_build_unix; export buildid;
@@ -37,10 +39,6 @@ DEVKITS_DIR=/build/devkits; export DEVKITS_DIR
 export BUILD_NUMBER=$BUILD_NUMBER
 export CODE_PATH=${WORKSPACE}/${JOB_NAME}
 #export PATH=$PATH:/devkits/tools/build_software/clm_nodejs/nodejs/bin:/devkits/tools/build_software/clm_jruby/jruby/bin
-echo "CODE PATH=$CODE_PATH"
-echo ${WORKSPACE}
-echo ${JOB_NAME}
-echo %WORKSPACE%
 
 #RELEASEAREA=$cfg_relroot; export RELEASEAREA
 #echo "Release Area = $RELEASEAREA"
@@ -93,7 +91,7 @@ echo "
 
 BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
 if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
-   
+   echo $BUILD_ARCHIVE_DIR
    logexe mkdir -p ${BUILD_ARCHIVE_DIR}
    logexe rsync -a $BUILD_BASE/ux/devops ${BUILD_ARCHIVE_DIR}/
    logexe cp -rf $BUILD_BASE/ux/dist/platform-portal ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
