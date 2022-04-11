@@ -36,6 +36,9 @@ export BUILD_NUMBER=$BUILD_NUMBER
 export CODE_PATH=${WORKSPACE}/${JOB_NAME}
 #export PATH=$PATH:/devkits/tools/build_software/clm_nodejs/nodejs/bin:/devkits/tools/build_software/clm_jruby/jruby/bin
 echo "CODE PATH=$CODE_PATH"
+echo ${WORKSPACE}
+echo ${JOB_NAME}
+echo %WORKSPACE%
 
 #RELEASEAREA=$cfg_relroot; export RELEASEAREA
 #echo "Release Area = $RELEASEAREA"
