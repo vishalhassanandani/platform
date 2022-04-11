@@ -33,7 +33,9 @@ DEVKITS_DIR=/build/devkits; export DEVKITS_DIR
 #export ANT_HOME=$DEVKITS_DIR/tools/build_software/ant/apache-ant-1.8.4
 #export NODEJS_PATH=$DEVKITS_DIR/tools/build_software/nodejs/v8.11.2/node-v8.11.2-linux-x64/bin
 export BUILD_NUMBER=$BUILD_NUMBER
+exxprt CODE_PATH=${WORKSPACE}/${JOB_NAME}
 #export PATH=$PATH:/devkits/tools/build_software/clm_nodejs/nodejs/bin:/devkits/tools/build_software/clm_jruby/jruby/bin
+echo "CODE PATH=$CODE_PATH"
 
 #RELEASEAREA=$cfg_relroot; export RELEASEAREA
 #echo "Release Area = $RELEASEAREA"
@@ -63,7 +65,7 @@ echo "
 # Platform Portal Build
 ##########################################################################
 "
-cd $BUILD_BASE/ux
+cd $CODE_PATH
 #$MAVEN3_HOME/bin/mvn clean package -DskipTests -Dcobertura.skip -s $M2_SETTINGS/settings.xml
 
 if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
