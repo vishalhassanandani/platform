@@ -1,16 +1,15 @@
-# Default values for helloworld-chart.
+# Default values for identity-management-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
+registryhost: __registryhost__
 replicaCount: 1
+namespace: __stackname__
+imagePullSecrets:
+  name: __imagePullSecrets__
 
 image:
-  repository: nginx
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
 
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
@@ -21,62 +20,175 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name:
 
-podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
+  path: /
+  name: __service_name__
   type: ClusterIP
-  port: 80
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
 
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+containers:
+    - name: __service_name__
+      org: __org__
+      imageprefix: ":"
+      imagename: __image_name__
+      tagprefix: "-"
+      tag: __chart_version__
+      ports: 
+       - name: http
+         port: 9000
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      lifecycle:
+        postStart:
+          exec:
+            command:
+            - touch
+            - /tmp/healthy
+        preStop:
+          exec:
+            command:
+            - sleep
+            - "10"
+      volumeMounts:
+      - name: customer-content
+        mountPath: /customer-content/
+      - name: connectorservice
+        mountPath: /connectorservice/
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
-autoscaling:
-  enabled: false
+envMap:
+  env:
+   SERVICE_PORT: "8000"
+   CAPTCHA_ENABLED: "false"
+   STACK_NAME: ryan
+   ENVIRONMENT_NAME: ryan
+   DOMAIN_NAME: qa.sps.secops.bmc.com
+
+   
+  secretKeyRef: 
+    PORTAL_REDIS_PASSWD:
+      key: PORTAL_REDIS_PASSWD
+      name: portal-redis-password
+      optional: true
+    OPS_API_KEY:
+      key: ops-api-key
+      name: ops-secrets     
+      optional: true
+
+envFrom:
+- configMapRef:
+    name: portal-redis-config
+    optional: true
+- configMapRef:
+    name: stack-config
+    optional: true  
+         
+horizontalPodAutoscaler:
+  deploymentName: __service_name__
   minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 50
 
-nodeSelector: {}
 
-tolerations: []
+initContainers: 
+  enabled: false
 
-affinity: {}
+volumes:
+- name: connectorservice
+  persistentVolumeClaim:
+    claimName: connectorservice
+- name: customer-content
+  persistentVolumeClaim:
+    claimName: customer-content 
+   
+ingress:
+  hostname: api-ryan.qa.sps.secops.bmc.com
+  cloudopshostname: api-ryan.qa.sps.secops.bmc.com
+
+ingress1:
+  ingress:
+    name: ade-cloudops-__service_name__-minion
+    annotations:
+       nginx.org/mergeable-ingress-type: "minion"
+       nginx.ingress.kubernetes.io/rewrite-target: /
+       nginx.ingress.kubernetes.io/configuration-snippet: |
+          rewrite ^(/automation-console/login)$ $1/ redirect;
+          rewrite ^(/cloudops/login)$ $1/ redirect;
+          rewrite ^/cloudops/login/(.*)$ /$1 break;
+          rewrite ^(/cloudops)$ $1/ redirect;
+          rewrite ^(/cloudops/services)$ $1/ redirect;
+          rewrite ^/cloudops/services/(.*)$ /$1 break;
+          rewrite ^/cloudops/(.*)$ /$1 break;
+          rewrite ^/automation-console/login/(.*)$ /$1 break;          
+    paths: 
+    - backend:
+        serviceName: __service_name__
+        servicePort: 8000
+      path: /cloudops/
+    - backend:
+        serviceName: __service_name__
+        servicePort: 8000
+      path: /cloudops/services
+    - backend:
+        serviceName: __service_name__
+        servicePort: 8000
+      path: /cloudops/login
+    - backend:
+        serviceName: __service_name__
+        servicePort: 8000
+      path: /automation-console/login        
+
+cloudopsingress1:
+  ingress:
+    name: platform-portal-minion
+    annotations:
+       nginx.org/mergeable-ingress-type: minion
+       nginx.ingress.kubernetes.io/rewrite-target: /
+       nginx.ingress.kubernetes.io/configuration-snippet: |
+          rewrite ^(/automation-console/login)$ $1/ redirect;
+          rewrite ^(/cloudops/login)$ $1/ redirect;
+          rewrite ^(/login)$ $1/ redirect;
+          rewrite ^/cloudops/login/(.*)$ /$1 break;
+          rewrite ^(/cloudops)$ $1/ redirect;
+          rewrite ^(/cloudops/services)$ $1/ redirect;
+          rewrite ^/cloudops/services/(.*)$ /$1 break;
+          rewrite ^/cloudops/(.*)$ /$1 break;
+          rewrite ^/login/(.*)$ /$1 break;
+          rewrite ^/automation-console/login/(.*)$ /$1 break;
+    paths: 
+    - path: /
+      backend:
+        serviceName: __service_name__
+        servicePort: 8000
+    - path: /cloudops/
+      backend:
+        serviceName: __service_name__
+        servicePort: 8000
+    - path: /cloudops/login
+      backend:
+        serviceName: __service_name__
+        servicePort: 8000
+    - path: /cloudops/services   
+      backend:
+        serviceName: __service_name__
+        servicePort: 8000
+    - path: /automation-console/login
+      backend:
+        serviceName: __service_name__
+        servicePort: 8000
+    - path: /login/
+      backend:
+        serviceName: __service_name__
+        servicePort: 8000 
