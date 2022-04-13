@@ -80,9 +80,15 @@ if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
 echo "$BUILD_BASE/ux/dist/platform-portal"
 echo "Vishal Hassanandani"
 
-cp Dockerfile $BUILD_BASE/ux/dist/platform-portal
-cp -r app $BUILD_BASE/ux/dist/platform-portal
-cp -r devops $BUILD_BASE/ux/dist/platform-portal
+#cp Dockerfile $BUILD_BASE/ux/dist/platform-portal
+#cp -r app $BUILD_BASE/ux/dist/platform-portal
+#cp -r devops $BUILD_BASE/ux/dist/platform-portal
+
+BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
+logexe mkdir -p ${BUILD_ARCHIVE_DIR}
+cp Dockerfile ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
+cp -r app ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
+cp -r devops ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
 
 
 
@@ -93,13 +99,13 @@ echo "
 ###########################################################################
 "
 
-BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
-if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
-   echo $BUILD_ARCHIVE_DIR
-   logexe mkdir -p ${BUILD_ARCHIVE_DIR}
-   logexe rsync -a $BUILD_BASE/ux/devops ${BUILD_ARCHIVE_DIR}/
-   logexe cp -rf $BUILD_BASE/ux/dist/platform-portal ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
+#BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
+#if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
+   #echo $BUILD_ARCHIVE_DIR
+   #logexe mkdir -p ${BUILD_ARCHIVE_DIR}
+   #logexe rsync -a $BUILD_BASE/ux/devops ${BUILD_ARCHIVE_DIR}/
+   #logexe cp -rf $BUILD_BASE/ux/dist/platform-portal ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
      
-  else
-   warn "Can not access -> $BUILD_BASE/ux/dist/platform-portal";
-fi
+  #else
+   #warn "Can not access -> $BUILD_BASE/ux/dist/platform-portal";
+#fi
