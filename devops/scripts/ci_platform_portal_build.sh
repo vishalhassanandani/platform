@@ -71,26 +71,18 @@ echo "
 cd $CODE_PATH
 #$MAVEN3_HOME/bin/mvn clean package -DskipTests -Dcobertura.skip -s $M2_SETTINGS/settings.xml
 
-if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
-   echo "Dir $BUILD_BASE/ux/dist/platform-portal already exist"
+if [ -d $BUILD_BASE/ux/dist/${SERVICENAME} ]; then
+   echo "Dir $BUILD_BASE/ux/dist/${SERVICENAME} already exist"
   else
-    mkdir -p $BUILD_BASE/ux/dist/platform-portal;
+    mkdir -p $BUILD_BASE/ux/dist/${SERVICENAME};
   fi
   
-echo "$BUILD_BASE/ux/dist/platform-portal"
+echo "$BUILD_BASE/ux/dist/${SERVICENAME}"
 echo "Vishal Hassanandani"
 
-#cp Dockerfile $BUILD_BASE/ux/dist/platform-portal
-#cp -r app $BUILD_BASE/ux/dist/platform-portal
-#cp -r devops $BUILD_BASE/ux/dist/platform-portal
-
-BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
-logexe mkdir -p ${BUILD_ARCHIVE_DIR}
-logexe rsync -a . ${BUILD_ARCHIVE_DIR}/
-cp Dockerfile ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
-cp -rf app ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
-cp -rf devops ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
-
+cp Dockerfile $BUILD_BASE/ux/dist/${SERVICENAME}
+cp -r app $BUILD_BASE/ux/dist/${SERVICENAME}
+cp -r devops $BUILD_BASE/ux/dist/${SERVICENAME}
 
 
 echo "
@@ -100,13 +92,13 @@ echo "
 ###########################################################################
 "
 
-#BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
-#if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
-   #echo $BUILD_ARCHIVE_DIR
-   #logexe mkdir -p ${BUILD_ARCHIVE_DIR}
-   #logexe rsync -a $BUILD_BASE/ux/devops ${BUILD_ARCHIVE_DIR}/
-   #logexe cp -rf $BUILD_BASE/ux/dist/platform-portal ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
+BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
+if [ -d $BUILD_BASE/ux/dist/${SERVICENAME} ]; then
+   echo $BUILD_ARCHIVE_DIR
+   logexe mkdir -p ${BUILD_ARCHIVE_DIR}
+   logexe rsync -a $BUILD_BASE/ux/devops ${BUILD_ARCHIVE_DIR}/
+   logexe cp -rf $BUILD_BASE/ux/dist/${SERVICENAME} ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
      
-  #else
-   #warn "Can not access -> $BUILD_BASE/ux/dist/platform-portal";
-#fi
+else
+   warn "Can not access -> $BUILD_BASE/ux/dist/${SERVICENAME}";
+fi
