@@ -79,6 +79,7 @@ if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
 
 cp Dockerfile $BUILD_BASE/ux/dist/platform-portal
 cp -r app $BUILD_BASE/ux/dist/platform-portal
+cp -r devops $BUILD_BASE/ux/dist/platform-portal
 
 
 
