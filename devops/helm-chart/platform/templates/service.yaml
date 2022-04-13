@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "helloworld-chart.fullname" . }}
   labels:
-    {{- include "helloworld-chart.labels" . | nindent 4 }}
+    {{- include "__service_name__.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "helloworld-chart.selectorLabels" . | nindent 4 }}
+    {{- include "__service_name__.selectorLabels" . | nindent 4 }}
