@@ -86,9 +86,10 @@ echo "Vishal Hassanandani"
 
 BUILD_ARCHIVE_DIR=${cfg_relroot}/build.${BUILD_NUMBER}; export BUILD_ARCHIVE_DIR
 logexe mkdir -p ${BUILD_ARCHIVE_DIR}
+logexe rsync -a . ${BUILD_ARCHIVE_DIR}/
 cp Dockerfile ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
-cp -r app ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
-cp -r devops ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
+cp -rf app ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
+cp -rf devops ${BUILD_ARCHIVE_DIR}/${SERVICE_IMAGE_CONTENT}
 
 
 
