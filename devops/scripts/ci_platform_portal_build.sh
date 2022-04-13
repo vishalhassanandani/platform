@@ -76,6 +76,9 @@ if [ -d $BUILD_BASE/ux/dist/platform-portal ]; then
   else
     mkdir -p $BUILD_BASE/ux/dist/platform-portal;
   fi
+  
+echo "$BUILD_BASE/ux/dist/platform-portal"
+echo "Vishal Hassanandani"
 
 cp Dockerfile $BUILD_BASE/ux/dist/platform-portal
 cp -r app $BUILD_BASE/ux/dist/platform-portal
