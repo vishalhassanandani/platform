@@ -1,28 +1,15 @@
-
----
 apiVersion: v1
-kind: List
-items:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      fabric8.io/ingress.annotations: |-
-        ingress.kubernetes.io/force-ssl-redirect: false
-        kubernetes.io/ingress.class: {{ .Values.__service_name__.service.ingressClass }}
-    labels:
-      expose: "true"
-      app: {{ template "fullname" . }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-      release: {{ .Release.Name | quote }}
-      heritage: {{ .Release.Service | quote }}
-      version: 1.0.0
-    name: __service_name__
-  spec:
-    ports:
-    - name: http
-      port: 80
+kind: Service
+metadata:
+  name: {{ include "platform.fullname" . }}
+  labels:
+    {{- include "platform.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
       protocol: TCP
-      targetPort: 80
-    selector:
-      app: {{ template "fullname" . }}
+      name: http
+  selector:
+    {{- include "platform.selectorLabels" . | nindent 4 }}
