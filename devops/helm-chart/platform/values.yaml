@@ -5,7 +5,7 @@ helloworld:
   namespace: __stackname__
   image:
     name: __registryhost__/__image_name__
-    tag: latest
+    tag: __chart_version__
     pullPolicy: IfNotPresent
   service:
     ingressClass: internal-ingress
