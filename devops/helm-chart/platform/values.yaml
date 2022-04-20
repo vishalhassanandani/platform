@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: __image_name__
+  repository: __registryhost__/__image_name__
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "__chart_version__"
